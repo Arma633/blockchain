@@ -16,7 +16,14 @@ public class CryptoToolBox {
 			e.printStackTrace();
 		}
 		byte[] hash = digest.digest(s.getBytes(StandardCharsets.UTF_8));
-		return Base64.getEncoder().encodeToString(hash);
+		
+		StringBuilder sb = new StringBuilder();
+		for (byte b : hash) {
+			sb.append(String.format("%02x", b));
+		}
+		
+		
+		return sb.toString();
 		
 	}
 }
