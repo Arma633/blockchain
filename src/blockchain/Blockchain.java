@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Blockchain {
 	ArrayList<Block> blockchain;
-	private static final int DIFFICULTY = 4;
+	private static final int DIFFICULTY = 5;
 
 	public Blockchain() {
 		this.blockchain = new ArrayList<Block>();

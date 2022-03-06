@@ -2,7 +2,6 @@ package blockchain;
 
 
 import java.time.LocalDate;
-import java.util.Arrays;
 
 public class Block {
 	protected int index;
@@ -28,6 +27,7 @@ public class Block {
 	}
 	
 	void mineBlock(int difficulty){
+		long initTime = System.currentTimeMillis();
 		String zeros = "";
 		for (int i = 0; i < difficulty; i++) {
 			zeros+="0";
@@ -38,7 +38,7 @@ public class Block {
 			this.hash = this.calculateHash();
 		}
 		
-		System.out.println("Success: "+this.hash);
+		System.out.println("Success: "+this.hash + " in : "+ (System.currentTimeMillis()-initTime) +" miliseconds");
 	}
 	
 	@Override
