@@ -2,31 +2,31 @@ package blockchain;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Block {
-	protected int index;
 	protected LocalDate timeStamp;
-	protected String data;
+	protected ArrayList<Transaction> transactions;
 	protected String hash;
 	protected String previousHash;
 	protected int nonce;
 
-	public Block(int index, LocalDate timeStamp, String data) {
-		this.index = index;
+	public Block(LocalDate timeStamp, ArrayList<Transaction> transactions) {
+
 		this.timeStamp = timeStamp;
-		this.data = data;
+		this.transactions = transactions;
 		this.previousHash = "";
 		this.hash = this.calculateHash();
 		this.nonce = 0;
 	}
 
-	public String calculateHash() {
-		String text = index+timeStamp.toString()+data.toString()+previousHash.toString()+this.nonce;
+	protected String calculateHash() {
+		String text = timeStamp.toString()+transactions.toString()+previousHash.toString()+this.nonce;
 		return CryptoToolBox.hashString(text);
 
 	}
 	
-	void mineBlock(int difficulty){
+	protected void mineBlock(int difficulty){
 		long initTime = System.currentTimeMillis();
 		String zeros = "";
 		for (int i = 0; i < difficulty; i++) {
@@ -43,7 +43,7 @@ public class Block {
 	
 	@Override
 	public String toString() {
-		return timeStamp.toString()+":"+index+":"+data+":"+hash+":"+previousHash;
+		return timeStamp.toString()+":"+transactions+":"+hash+":"+previousHash;
 	}
 }
 

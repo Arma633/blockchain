@@ -1,20 +1,25 @@
 package blockchain;
 
-import java.time.LocalDate;
+
 
 public class Main {
 	public static void main(String[] args) {
 		Blockchain bc = new Blockchain();
 		
-		System.out.println("Generating block 1...");
-		bc.addBlock(new Block(1, LocalDate.now(), "1200btc"));
+		bc.createTransaction(new Transaction("ShinZzz_Addr", "Foo_Addr",10));
+		bc.createTransaction(new Transaction("ShinZzz_Addr", "Foo_Addr",10));
+		bc.createTransaction(new Transaction("ShinZzz_Addr", "Foo_Addr",10));
+		bc.viewPending();
 		
-		System.out.println("Generating block 2...");
-		bc.addBlock(new Block(2, LocalDate.now(), "-1200btc"));
+		System.out.println("Mining...");
+		bc.minePendingTransactions("Bar_Addr");
+		System.out.println("Miner bal is : "+bc.getBalanceOfAddr("Bar_Addr")+"\n");
 		
-		System.out.println(bc);
-
- 
-
+		bc.createTransaction(new Transaction("ShinZzz_Addr", "Foo_Addr",10));
+		bc.viewPending();
+		
+		System.out.println("Mining...");
+		bc.minePendingTransactions("Bar_Addr");
+		System.out.println("Miner bal is : "+bc.getBalanceOfAddr("Bar_Addr"));
 	}
 }
