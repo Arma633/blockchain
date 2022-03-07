@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 public class Blockchain {
 	private static final int MINING_REWARD = 10;
-	private static final int DIFFICULTY = 10;
-	private static final String REWARDER_ADDR = "blockchain_system";
+	private static final int DIFFICULTY = 2;
+	protected static final Account REWARDER_ADDR = new Account("rewarder_addr");
 
 
 	ArrayList<Block> blockchain;
@@ -37,12 +37,16 @@ public class Blockchain {
 		this.blockchain.add(b);
 	}
 
-	protected void minePendingTransactions(String rewardToAddr) {
+	protected void minePendingTransactions(Account rewardToAddr) {
 		Block b = new Block(LocalDate.now(), this.pendingTransactions);
 		b.mineBlock(DIFFICULTY);
 		this.blockchain.add(b);
 		this.pendingTransactions.clear();
-		this.createTransaction((new Transaction(REWARDER_ADDR, rewardToAddr, MINING_REWARD)));;
+		try {
+			this.addTransaction((new Transaction(REWARDER_ADDR, rewardToAddr, MINING_REWARD)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		};
 	}
 
 	protected boolean isValid() {
@@ -51,6 +55,10 @@ public class Blockchain {
 		for (int i = 1; i < this.blockchain.size(); i++) {
 			currentBlock = this.blockchain.get(i);
 			previousBlock = this.blockchain.get(i-1);
+
+			if(!currentBlock.hasValidTransactions()) {
+				return false;
+			}
 
 			if(!currentBlock.hash.equals(currentBlock.calculateHash())) {
 				return false;
@@ -63,7 +71,16 @@ public class Blockchain {
 		return true;
 	}
 
-	protected void createTransaction(Transaction t) {
+	protected void addTransaction(Transaction t) throws Exception {
+		
+		if(t.fromAddr == null || t.toAddr == null) {
+			throw new Exception("Error trans must include from and to addr");
+		}
+		
+		if(!t.isValid()) {
+			throw new Exception("Transaction not valid : " );
+		}
+		
 		this.pendingTransactions.add(t);
 	}
 

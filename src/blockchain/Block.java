@@ -25,22 +25,31 @@ public class Block {
 		return CryptoToolBox.hashString(text);
 
 	}
-	
+
 	protected void mineBlock(int difficulty){
 		long initTime = System.currentTimeMillis();
 		String zeros = "";
 		for (int i = 0; i < difficulty; i++) {
 			zeros+="0";
-			
+
 		}
 		while (!this.hash.substring(0, difficulty).equals(zeros)) {
 			this.nonce++;
 			this.hash = this.calculateHash();
 		}
-		
+
 		System.out.println("Success: "+this.hash + " in : "+ (System.currentTimeMillis()-initTime) +" miliseconds");
 	}
-	
+
+	boolean hasValidTransactions() {
+		for (Transaction transaction : transactions) {
+			if(!transaction.isValid()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	@Override
 	public String toString() {
 		return timeStamp.toString()+":"+transactions+":"+hash+":"+previousHash;

@@ -8,43 +8,61 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.Signature;
 import java.security.SignatureException;
+import java.util.Base64;
 
 public class Account {
-	private static final String ALGO = "SHA256withRSA";
-	private static KeyPairGenerator kpg;
-	private KeyPair kp;
+	private static final String ALGO_SIGN = "SHA256withRSA";
+	private static final String ALGO_KEYS = "RSA";
+	public String name;
+	public KeyPair kp;
 
-	public Account() {
+	public Account(String name) {
+		KeyPairGenerator kpg = null;
 		try {
-			kpg = KeyPairGenerator.getInstance("RSA");
+			kpg = KeyPairGenerator.getInstance(ALGO_KEYS);
 			kpg.initialize(2048);
-			KeyPair kp = kpg.generateKeyPair();
-
+			this.kp = kpg.generateKeyPair();
+			this.name = name;
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	protected Key getPrivate() {
-		return this.kp.getPrivate();
+		return kp.getPrivate();
 	}
 	
 	protected Key getPublic() {
-		return this.kp.getPublic();
+		return kp.getPublic();
 	}
 	
-	protected String getSignatureFromTransaction(String s) {
+	protected String getPrivateDigest() {
+		return 	CryptoToolBox.hashString(this.getPrivate().toString());
+	}
+	
+	protected String getPublicDigest() {
+		return 	CryptoToolBox.hashString(this.getPublic().toString());
+	}
+	
+	
+	protected byte[] getSignatureFromTransaction(String s) {
 		Signature sig = null;
-		String res = null;
+		byte[] res = null;
 		try {
-			sig = Signature.getInstance(ALGO);
+			sig = Signature.getInstance(ALGO_SIGN);
 			sig.initSign((PrivateKey)this.getPrivate());
 			sig.update(s.getBytes());
-			res = new String(sig.sign());
+			res = sig.sign();
 		} catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
 			e.printStackTrace();
 		}
 		return res;
+	}
+	
+	@Override
+	public String toString() {
+		return this.getPublicDigest();
 	}
 	
 	

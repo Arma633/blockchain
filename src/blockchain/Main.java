@@ -5,20 +5,22 @@ package blockchain;
 public class Main {
 	public static void main(String[] args) {
 		Blockchain bc = new Blockchain();
-		bc.createTransaction(new Transaction("ShinZzz_Addr", "Foo_Addr",10));
-		bc.createTransaction(new Transaction("ShinZzz_Addr", "Foo_Addr",10));
-		bc.createTransaction(new Transaction("ShinZzz_Addr", "Foo_Addr",10));
-		bc.viewPending();
+		Account userAccount = new Account("user-account");
+		Account otherAccount = new Account("other-account");
 		
-		System.out.println("Mining...");
-		bc.minePendingTransactions("Bar_Addr");
-		System.out.println("Miner bal is : "+bc.getBalanceOfAddr("Bar_Addr")+"\n");
+		Transaction tx1 = new Transaction(userAccount, otherAccount, 10);
+		tx1.signTransaction();
+		try {
+			bc.addTransaction(tx1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		bc.createTransaction(new Transaction("ShinZzz_Addr", "Foo_Addr",10));
-		bc.viewPending();
 		
-		System.out.println("Mining...");
-		bc.minePendingTransactions("Bar_Addr");
-		System.out.println("Miner bal is : "+bc.getBalanceOfAddr("Bar_Addr"));
+		bc.minePendingTransactions(userAccount);
+		
+
+		
 	}
 }
