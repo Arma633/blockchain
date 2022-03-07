@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Blockchain {
 	private static final int MINING_REWARD = 10;
-	private static final int DIFFICULTY = 2;
+	private static final int DIFFICULTY = 10;
 	private static final String REWARDER_ADDR = "blockchain_system";
 
 
@@ -41,7 +41,6 @@ public class Blockchain {
 		Block b = new Block(LocalDate.now(), this.pendingTransactions);
 		b.mineBlock(DIFFICULTY);
 		this.blockchain.add(b);
-
 		this.pendingTransactions.clear();
 		this.createTransaction((new Transaction(REWARDER_ADDR, rewardToAddr, MINING_REWARD)));;
 	}
@@ -90,7 +89,7 @@ public class Blockchain {
 			System.out.println(t);
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

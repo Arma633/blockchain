@@ -5,7 +5,6 @@ package blockchain;
 public class Main {
 	public static void main(String[] args) {
 		Blockchain bc = new Blockchain();
-		
 		bc.createTransaction(new Transaction("ShinZzz_Addr", "Foo_Addr",10));
 		bc.createTransaction(new Transaction("ShinZzz_Addr", "Foo_Addr",10));
 		bc.createTransaction(new Transaction("ShinZzz_Addr", "Foo_Addr",10));
