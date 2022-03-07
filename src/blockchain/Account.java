@@ -13,8 +13,8 @@ import java.util.Base64;
 public class Account {
 	private static final String ALGO_SIGN = "SHA256withRSA";
 	private static final String ALGO_KEYS = "RSA";
-	public String name;
-	public KeyPair kp;
+	private String name;
+	private KeyPair kp;
 
 	public Account(String name) {
 		KeyPairGenerator kpg = null;
@@ -29,6 +29,10 @@ public class Account {
 		
 	}
 	
+	public String getName() {
+		return name;
+	}
+
 	protected Key getPrivate() {
 		return kp.getPrivate();
 	}

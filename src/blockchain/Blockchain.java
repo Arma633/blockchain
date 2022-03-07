@@ -88,11 +88,11 @@ public class Blockchain {
 		int balance = 0;
 		for (Block block : blockchain) {
 			for (Transaction t : block.transactions) {
-				if(t.fromAddr.equals(addr)) {
+				if(t.fromAddr.getPublicDigest().equals(addr)) {
 					balance -= t.amt;
 				}
 
-				if(t.toAddr.equals(addr)) {
+				if(t.toAddr.getPublicDigest().equals(addr)) {
 					balance += t.amt;
 				}
 
