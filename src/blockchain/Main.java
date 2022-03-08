@@ -6,7 +6,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		Blockchain bc = new Blockchain();
-		Account a1 = new Account("moha");
+		Account a1 = new Account("bar");
 		Account a2 = new Account("foo");
 		
 		
