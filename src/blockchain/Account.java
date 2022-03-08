@@ -26,9 +26,9 @@ public class Account {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -36,20 +36,20 @@ public class Account {
 	protected Key getPrivate() {
 		return kp.getPrivate();
 	}
-	
+
 	protected Key getPublic() {
 		return kp.getPublic();
 	}
-	
+
 	protected String getPrivateDigest() {
 		return 	CryptoToolBox.hashString(this.getPrivate().toString());
 	}
-	
+
 	protected String getPublicDigest() {
 		return 	CryptoToolBox.hashString(this.getPublic().toString());
 	}
-	
-	
+
+
 	protected byte[] getSignatureFromTransaction(String s) {
 		Signature sig = null;
 		byte[] res = null;
@@ -63,11 +63,11 @@ public class Account {
 		}
 		return res;
 	}
-	
+
 	@Override
 	public String toString() {
-		return this.getPublicDigest();
+		return this.getPublic().toString();
 	}
-	
-	
+
+
 }

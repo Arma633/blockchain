@@ -12,42 +12,42 @@ public class Transaction {
 	protected Account toAddr;
 	protected int amt;
 	protected byte[] signature;
-	
-	
+
+
 	public Transaction(Account fromAddr, Account toAddr, int amt) {
 		super();
 		this.fromAddr = fromAddr;
 		this.toAddr = toAddr;
 		this.amt = amt;
 	}
-	
+
 	protected String calculateTransHash() {
 		return CryptoToolBox.hashString(fromAddr.toString()+toAddr.toString()+amt);
 	}
-	
+
 	protected void signTransaction() {
 		String hashTrans = this.calculateTransHash();
 		byte[] sig = fromAddr.getSignatureFromTransaction(hashTrans);
 		this.signature = sig;
-		
+
 	}
-	
+
 	protected boolean isValid() {
 		if(this.fromAddr.equals(Blockchain.REWARDER_ADDR)) {
 			return true;
 		}
-		
+
 		if(this.signature == null || this.signature.length == 0 ) {
 			return false;
 		}
-		
+
 		Signature sign;
 		try {
 			sign = Signature.getInstance(ALGO_SIGN);
 			sign.initVerify((PublicKey) fromAddr.getPublic());
 			sign.update(this.calculateTransHash().getBytes());
 			return sign.verify(this.signature);
-			
+
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -59,17 +59,17 @@ public class Transaction {
 			e.printStackTrace();
 		}
 		return false;
-		
-		
-		
-		
+
+
+
+
 
 	}
-	
+
 	@Override
 	public String toString() {
-		return "from:"+fromAddr+"\nto:"+toAddr+"\namount:"+amt+"\n";
+		return "from:"+fromAddr.getName()+"\nto:"+toAddr+"\namount:"+amt+"\n";
 	}
-	
+
 
 }

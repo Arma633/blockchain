@@ -22,6 +22,7 @@ public class Blockchain {
 	private void genesis() {
 		Block genesis = new Block(LocalDate.now(),new ArrayList<Transaction>());
 		genesis.previousHash = "0";
+		genesis.hash = genesis.calculateHash();
 		this.blockchain.add(genesis);
 
 	}
@@ -30,16 +31,19 @@ public class Blockchain {
 		return this.blockchain.get(this.blockchain.size()-1);
 	}
 
-	@Deprecated
-	private void addBlock(Block b) {
-		b.previousHash = this.getLatestBlock().hash;
-		b.mineBlock(DIFFICULTY);
-		this.blockchain.add(b);
-	}
+//	@Deprecated
+//	private void addBlock(Block b) {
+//		b.previousHash = this.getLatestBlock().hash;
+//		b.mineBlock(DIFFICULTY);
+//		this.blockchain.add(b);
+//	}
 
 	protected void minePendingTransactions(Account rewardToAddr) {
 		Block b = new Block(LocalDate.now(), this.pendingTransactions);
+		b.previousHash = this.getLatestBlock().hash;
+		b.hash = b.calculateHash();
 		b.mineBlock(DIFFICULTY);
+		
 		this.blockchain.add(b);
 		this.pendingTransactions.clear();
 		try {
@@ -72,15 +76,15 @@ public class Blockchain {
 	}
 
 	protected void addTransaction(Transaction t) throws Exception {
-		
+
 		if(t.fromAddr == null || t.toAddr == null) {
 			throw new Exception("Error trans must include from and to addr");
 		}
-		
+
 		if(!t.isValid()) {
 			throw new Exception("Transaction not valid : " );
 		}
-		
+
 		this.pendingTransactions.add(t);
 	}
 

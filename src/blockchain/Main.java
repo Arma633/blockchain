@@ -3,42 +3,29 @@ package blockchain;
 
 
 public class Main {
+
 	public static void main(String[] args) {
 		Blockchain bc = new Blockchain();
-		Account userAccount = new Account("Mohamed");
-		Account otherAccount = new Account("Foo");
+		Account a1 = new Account("moha");
+		Account a2 = new Account("foo");
+		Transaction t = new Transaction(a1, a2, 10);
+		t.signTransaction();
 		
-		System.out.println("Welcome " + userAccount.getName());
-		System.out.println("Your public key is : "+ userAccount);
-		System.out.println();
-		
-		Transaction tx1 = new Transaction(userAccount, otherAccount, 10);
-		
-		System.out.println("-----BEGIN TRANSACTION-----");
-		System.out.print(tx1);
-		System.out.println("-----END TRANSACTION-----");
-		System.out.println();
-		
-		System.out.println("Signing transaction with public key...");
-		tx1.signTransaction();
-		String sigDigest = CryptoToolBox.hashString(new String(tx1.signature));
-		
-		System.out.println("Transaction: "+tx1.calculateTransHash() +" has signature : "+ sigDigest);
-		System.out.println();
-		
-		
+
 		try {
-			System.out.println("Checking transactions validity then mining...");
-			bc.addTransaction(tx1);
+			bc.addTransaction(t);
+			bc.minePendingTransactions(a1);
+			bc.isValid();
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		bc.minePendingTransactions(userAccount);
-		System.out.println(bc.getBalanceOfAddr(userAccount.getPublicDigest()));
-		bc.minePendingTransactions(userAccount);
-		System.out.println(bc.getBalanceOfAddr(userAccount.getPublicDigest()));
+
+		System.out.println(bc.getLatestBlock().hash);
+		System.out.println(bc.blockchain.get(1).hash);
+		System.out.println(bc.getLatestBlock().calculateHash());
+		System.out.println(bc.blockchain.get(1).calculateHash());
 	}
+
 }

@@ -38,7 +38,8 @@ public class Block {
 			this.hash = this.calculateHash();
 		}
 
-		System.out.println("Success: "+this.hash + " in : "+ (System.currentTimeMillis()-initTime) +" miliseconds");
+
+		System.out.println("Success: "+this.hash +"+++++++"+this.calculateHash() + " in : "+ (System.currentTimeMillis()-initTime) +" miliseconds");
 	}
 
 	boolean hasValidTransactions() {
@@ -52,7 +53,7 @@ public class Block {
 
 	@Override
 	public String toString() {
-		return timeStamp.toString()+":"+transactions+":"+hash+":"+previousHash;
+		return hash+":"+previousHash;
 	}
 }
 
