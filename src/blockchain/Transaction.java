@@ -15,7 +15,6 @@ public class Transaction {
 
 
 	public Transaction(Account fromAddr, Account toAddr, int amt) {
-		super();
 		this.fromAddr = fromAddr;
 		this.toAddr = toAddr;
 		this.amt = amt;
@@ -68,7 +67,7 @@ public class Transaction {
 
 	@Override
 	public String toString() {
-		return "from:"+fromAddr.getName()+"\nto:"+toAddr+"\namount:"+amt+"\n";
+		return "from:"+fromAddr+"\nto:"+toAddr+"\namount:"+amt+"\n";
 	}
 
 

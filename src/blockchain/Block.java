@@ -16,8 +16,8 @@ public class Block {
 		this.timeStamp = timeStamp;
 		this.transactions = transactions;
 		this.previousHash = "";
-		this.hash = this.calculateHash();
 		this.nonce = 0;
+		this.hash = this.calculateHash();
 	}
 
 	protected String calculateHash() {
@@ -36,10 +36,11 @@ public class Block {
 		while (!this.hash.substring(0, difficulty).equals(zeros)) {
 			this.nonce++;
 			this.hash = this.calculateHash();
+			
 		}
 
 
-		System.out.println("Success: "+this.hash +"+++++++"+this.calculateHash() + " in : "+ (System.currentTimeMillis()-initTime) +" miliseconds");
+		System.out.println("Success: "+this.hash +" in : "+ (System.currentTimeMillis()-initTime) +" miliseconds");
 	}
 
 	boolean hasValidTransactions() {

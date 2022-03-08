@@ -39,11 +39,10 @@ public class Blockchain {
 //	}
 
 	protected void minePendingTransactions(Account rewardToAddr) {
-		Block b = new Block(LocalDate.now(), this.pendingTransactions);
+		Block b = new Block(LocalDate.now(), new ArrayList<Transaction>(this.pendingTransactions));
 		b.previousHash = this.getLatestBlock().hash;
 		b.hash = b.calculateHash();
 		b.mineBlock(DIFFICULTY);
-		
 		this.blockchain.add(b);
 		this.pendingTransactions.clear();
 		try {

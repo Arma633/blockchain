@@ -8,7 +8,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.Signature;
 import java.security.SignatureException;
-import java.util.Base64;
 
 public class Account {
 	private static final String ALGO_SIGN = "SHA256withRSA";
@@ -66,7 +65,7 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return this.getPublic().toString();
+		return this.getPublicDigest();
 	}
 
 
